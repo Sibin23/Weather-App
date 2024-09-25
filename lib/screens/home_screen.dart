@@ -8,9 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:weather_app/screens/saved_screen.dart';
 import 'package:weather_app/services/cityservice.dart';
 import 'package:weather_app/weatherBloc/weather_bloc_bloc.dart';
-import 'package:weather_app/screens/saved_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final Position initialPosition;
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
+     appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         systemOverlayStyle:
@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
         title: Row(
           children: [
             Expanded(
-              child: SizedBox(
+              child: Container(
                 height: 40,
                 child: CupertinoTextField(
                   controller: _searchController,
@@ -180,37 +180,37 @@ class HomeScreen extends StatelessWidget {
                                                     initialPosition));
                                           },
                                         ),
-                                        // IconButton(
-                                        //   icon: const Icon(
-                                        //     Icons.bookmark,
-                                        //     color: Colors.white,
-                                        //     size: 30,
-                                        //   ),
-                                        //   onPressed: () async {
-                                        //     final cityName =
-                                        //         state.weather.cityName;
-                                        //     try {
-                                        //       await cityService.addCity(cityName);
-                                        //       ScaffoldMessenger.of(context)
-                                        //           .showSnackBar(
-                                        //         SnackBar(
-                                        //             content: Text(
-                                        //                 'City saved successfully')),
-                                        //       );
-                                        //     } catch (error) {
-                                        //       if (kDebugMode) {
-                                        //         print(
-                                        //           'Error: $error');
-                                        //       } // Log the error
-                                        //       ScaffoldMessenger.of(context)
-                                        //           .showSnackBar(
-                                        //         SnackBar(
-                                        //             content: Text(
-                                        //                 'Failed to save city: $error')),
-                                        //       );
-                                        //     }
-                                        //   },
-                                        // ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.bookmark,
+                                            color: Colors.white,
+                                            size: 30,
+                                          ),
+                                          onPressed: () async {
+                                            final cityName =
+                                                state.weather.cityName;
+                                            try {
+                                              await cityService.addCity(cityName);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'City saved successfully')),
+                                              );
+                                            } catch (error) {
+                                              if (kDebugMode) {
+                                                print(
+                                                  'Error: $error');
+                                              } // Log the error
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'Failed to save city: $error')),
+                                              );
+                                            }
+                                          },
+                                        ),
                                       ],
                                     )
                                   ],

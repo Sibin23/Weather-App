@@ -7,16 +7,16 @@ class CityBloc extends Bloc<CityEvent, CityState> {
   final CityService cityService;
 
   CityBloc(this.cityService) : super(CityInitial()) {
-    // on<AddCity>((event, emit) async {
-    //   try {
-    //     emit(CityLoading());
-    //     await cityService.addCity(event.name);
-    //     final cities = await cityService.getCities();
-    //     emit(CityLoaded(cities));
-    //   } catch (error) {
-    //     emit(CityError(error.toString()));
-    //   }
-    // });
+    on<AddCity>((event, emit) async {
+      try {
+        emit(CityLoading());
+        await cityService.addCity(event.name);
+        final cities = await cityService.getCities();
+        emit(CityLoaded(cities));
+      } catch (error) {
+        emit(CityError(error.toString()));
+      }
+    });
 
     on<FetchCities>((event, emit) async {
       try {

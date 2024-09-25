@@ -19,7 +19,7 @@ class FetchWeather extends WeatherBlocEvent {
 class FetchWeatherByCityName extends WeatherBlocEvent {
   final String cityName;
 
-  FetchWeatherByCityName(this.cityName);
+  const FetchWeatherByCityName(this.cityName);
 
   @override
   List<Object> get props => [cityName];
