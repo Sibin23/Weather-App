@@ -16,7 +16,7 @@ class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
       emit(WeatherBlocLoading());
       try {
         final response = await http.get(Uri.parse(
-            'https://api.openweathermap.org/data/2.5/weather?lat=${event.position.latitude}&lon=${event.position.longitude}&appid=$Api_Key&units=metric'));
+            'https://api.openweathermap.org/data/2.5/weather?lat=${event.position.latitude}&lon=${event.position.longitude}&appid=$apiKey&units=metric'));
 
         if (response.statusCode == 200) {
           final jsonData = jsonDecode(response.body);
@@ -36,7 +36,7 @@ class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
       emit(WeatherBlocLoading());
       try {
         final response = await http.get(Uri.parse(
-            'https://api.openweathermap.org/data/2.5/weather?q=${event.cityName}&appid=$Api_Key&units=metric'));
+            'https://api.openweathermap.org/data/2.5/weather?q=${event.cityName}&appid=$apiKey&units=metric'));
 
         if (response.statusCode == 200) {
           final jsonData = jsonDecode(response.body);
