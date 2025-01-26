@@ -6,30 +6,39 @@ import 'package:weather_app/core/constants.dart';
 import 'dart:convert';
 
 import 'package:weather_app/data/model/weather_model.dart';
+import 'package:weather_app/data/services/weather_service.dart';
 
 part 'weather_bloc_event.dart';
 part 'weather_bloc_state.dart';
 
 class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
-  WeatherBlocBloc() : super(WeatherBlocInitial()) {
+  final WeatherService weatherService;
+  WeatherBlocBloc(this.weatherService) : super(WeatherBlocInitial()) {
     on<FetchWeather>((event, emit) async {
       emit(WeatherBlocLoading());
       try {
-        final response = await http.get(Uri.parse(
-            'https://api.openweathermap.org/data/2.5/weather?lat=${event.position.latitude}&lon=${event.position.longitude}&appid=$apiKey&units=metric'));
-
-        if (response.statusCode == 200) {
-          final jsonData = jsonDecode(response.body);
-          final weather = Weather.fromJson(jsonData);
-
+        final weather =
+            await weatherService.fetchWeatherByCityName(event.cityName);
+        if (weather != null) {
           emit(WeatherBlocSuccess(weather));
-          print('City: ${weather.cityName}');
-          print('Date Time: ${weather.datetime}');
-        } else {
-          emit(WeatherBlocFailure());
+        }else{
+          emit(WeatherErrorState());
         }
+        // final response = await http.get(Uri.parse(
+        //     'https://api.openweathermap.org/data/2.5/weather?lat=${event.position.latitude}&lon=${event.position.longitude}&appid=$apiKey&units=metric'));
+
+        // if (response.statusCode == 200) {
+        //   final jsonData = jsonDecode(response.body);
+        //   final weather = Weather.fromJson(jsonData);
+
+        //   emit(WeatherBlocSuccess(weather));
+        //   print('City: ${weather.cityName}');
+        //   print('Date Time: ${weather.datetime}');
+        // } else {
+        //   emit(WeatherBlocFailure());
+        // }
       } catch (e) {
-        emit(WeatherBlocFailure());
+        emit(WeatherErrorState());
       }
     });
     on<FetchWeatherByCityName>((event, emit) async {
@@ -46,10 +55,10 @@ class WeatherBlocBloc extends Bloc<WeatherBlocEvent, WeatherBlocState> {
           print('City: ${weather.cityName}');
           print('Date Time: ${weather.datetime}');
         } else {
-          emit(WeatherBlocFailure());
+          emit(WeatherErrorState());
         }
       } catch (e) {
-        emit(WeatherBlocFailure());
+        emit(WeatherErrorState());
       }
     });
   }

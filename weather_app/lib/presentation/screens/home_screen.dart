@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_app/screens/saved_screen.dart';
 import 'package:weather_app/data/services/cityservice.dart';
-import 'package:weather_app/weatherBloc/weather_bloc_bloc.dart';
+import 'package:weather_app/presentation/weatherBloc/weather_bloc_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   final Position initialPosition;
@@ -67,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                       // Clear the text field and fetch weather with initial position
                       _searchController.clear();
                       BlocProvider.of<WeatherBlocBloc>(context)
-                          .add(FetchWeather(initialPosition));
+                          .add(FetchWeather(initialPosition, cityName));
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 8.0),
@@ -81,15 +78,6 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SavedScreen()),
-                );
-              },
             ),
           ],
         ),
@@ -155,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                                             BlocProvider.of<WeatherBlocBloc>(
                                                     context)
                                                 .add(FetchWeather(
-                                                    initialPosition));
+                                                    initialPosition, cityName));
                                           },
                                         ),
                                         IconButton(
@@ -378,7 +366,7 @@ class HomeScreen extends StatelessWidget {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
-                      } else if (state is WeatherBlocFailure) {
+                      } else if (state is WeatherErrorState) {
                         return const Center(
                           child: Text(
                             'Failed to fetch weather data',
