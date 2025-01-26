@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:weather_app/services/cityservice.dart';
+import 'package:weather_app/data/services/cityservice.dart';
 import 'city_event.dart';
 import 'city_state.dart';
 

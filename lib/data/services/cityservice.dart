@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:weather_app/model/location_model.dart';
+import 'package:weather_app/data/model/location_model.dart';
 
 class CityService {
   final String baseUrl = 'http://192.168.1.37:3000';

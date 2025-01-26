@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,25 +6,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_app/screens/saved_screen.dart';
-import 'package:weather_app/services/cityservice.dart';
-import 'package:weather_app/weatherBloc/weather_bloc_bloc.dart';
+import 'package:weather_app/data/services/cityservice.dart';
+import 'package:weather_app/presentation/weatherBloc/weather_bloc_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   final Position initialPosition;
   final String cityName;
   final CityService cityService = CityService();
 
-  HomeScreen({super.key, required this.initialPosition, required this.cityName});
+  HomeScreen(
+      {super.key, required this.initialPosition, required this.cityName});
 
   final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
-     appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         systemOverlayStyle:
@@ -34,11 +32,12 @@ class HomeScreen extends StatelessWidget {
         title: Row(
           children: [
             Expanded(
-              child: Container(
+              child: SizedBox(
                 height: 40,
                 child: CupertinoTextField(
                   controller: _searchController,
                   placeholder: 'Search',
+                  placeholderStyle: const TextStyle(color: Colors.white),
                   onChanged: (query) {
                     // Handle search query changes
                     BlocProvider.of<WeatherBlocBloc>(context)
@@ -50,8 +49,7 @@ class HomeScreen extends StatelessWidget {
                         .add(FetchWeatherByCityName(query));
                   },
                   decoration: BoxDecoration(
-                    color:
-                        const Color.fromARGB(255, 95, 31, 31).withOpacity(0.4),
+                    color: Colors.white.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   prefix: const Padding(
@@ -66,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                       // Clear the text field and fetch weather with initial position
                       _searchController.clear();
                       BlocProvider.of<WeatherBlocBloc>(context)
-                          .add(FetchWeather(initialPosition));
+                          .add(FetchWeather(initialPosition, cityName));
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 8.0),
@@ -80,15 +78,6 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward, color: Colors.white),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SavedScreen()),
-                );
-              },
             ),
           ],
         ),
@@ -105,41 +94,18 @@ class HomeScreen extends StatelessWidget {
               child: Stack(
                 children: [
                   Align(
-                    alignment: const AlignmentDirectional(3, -0.3),
+                    alignment: const AlignmentDirectional(0, -0.6),
                     child: Container(
-                      height: 300,
+                      height: 350,
                       width: 300,
                       decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromRGBO(116, 23, 7, 1),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: const AlignmentDirectional(-3, -0.3),
-                    child: Container(
-                      height: 300,
-                      width: 300,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromRGBO(116, 23, 7, 1),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: const AlignmentDirectional(0, -1.2),
-                    child: Container(
-                      height: 300,
-                      width: 700,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(194, 74, 41, 1),
-                      ),
-                    ),
-                  ),
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
-                    child: Container(
-                      decoration: const BoxDecoration(color: Colors.transparent),
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                            Color.fromARGB(255, 112, 131, 255),
+                            Color.fromARGB(255, 255, 112, 248),
+                          ])),
                     ),
                   ),
                   BlocBuilder<WeatherBlocBloc, WeatherBlocState>(
@@ -177,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                                             BlocProvider.of<WeatherBlocBloc>(
                                                     context)
                                                 .add(FetchWeather(
-                                                    initialPosition));
+                                                    initialPosition, cityName));
                                           },
                                         ),
                                         IconButton(
@@ -190,17 +156,17 @@ class HomeScreen extends StatelessWidget {
                                             final cityName =
                                                 state.weather.cityName;
                                             try {
-                                              await cityService.addCity(cityName);
+                                              await cityService
+                                                  .addCity(cityName);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                     content: Text(
                                                         'City saved successfully')),
                                               );
                                             } catch (error) {
                                               if (kDebugMode) {
-                                                print(
-                                                  'Error: $error');
+                                                print('Error: $error');
                                               } // Log the error
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -400,7 +366,7 @@ class HomeScreen extends StatelessWidget {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
-                      } else if (state is WeatherBlocFailure) {
+                      } else if (state is WeatherErrorState) {
                         return const Center(
                           child: Text(
                             'Failed to fetch weather data',
