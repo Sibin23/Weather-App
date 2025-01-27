@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/presentation/common_widgets/search_field.dart';
 import 'package:weather_app/presentation/bloc/weather_bloc_bloc.dart';
+import 'package:weather_app/presentation/screens/weather_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final Position initialPosition;
@@ -91,13 +92,17 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _searchController.clear();
-                                            BlocProvider.of<WeatherBlocBloc>(
-                                                    context)
-                                                .add(FetchWeather(
-                                                    initialPosition, 'Maradu'));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (ctx) =>
+                                                        const WeatherScreen()));
+                                            // BlocProvider.of<WeatherBlocBloc>(
+                                            //         context)
+                                            //     .add(FetchWeather(
+                                            //         initialPosition, 'Maradu'));
                                           },
                                         ),
-                                       
                                       ],
                                     )
                                   ],

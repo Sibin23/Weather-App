@@ -7,6 +7,7 @@ const String apiKey = 'f302292fbb6c5976038c6c1191526de8';
 const Color primaryColor1 = Color.fromARGB(255, 112, 131, 255);
 const Color primaryColor2 = Color.fromARGB(255, 255, 112, 248);
 const Color whiteColor = Colors.white;
+const Color blackColor = Colors.black;
 
 const h10 = SizedBox(height: 10);
 const h20 = SizedBox(width: 20);
@@ -18,6 +19,10 @@ BorderRadius radius12 = BorderRadius.circular(12);
 BorderRadius radius20 = BorderRadius.circular(20);
 
 // TextStyle
+TextStyle title = GoogleFonts.roboto(
+    color: whiteColor, fontSize: 25, fontWeight: FontWeight.w400);
+final TextStyle subtitle1 = GoogleFonts.roboto(
+    fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
 final TextStyle subtitle2 = GoogleFonts.roboto(
   fontSize: 18,
   color: Colors.white,
