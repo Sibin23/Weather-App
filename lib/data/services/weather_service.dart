@@ -21,7 +21,7 @@ class WeatherService {
         return null;
       }
     } catch (e) {
-      throw Exception('Failed to fetch weather data: $e');
+      throw Exception('Failed to fetch weather data: ${e.toString()}');
     }
   }
 }

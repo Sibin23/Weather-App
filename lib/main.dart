@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/citybloc/city_bloc.dart';
-import 'package:weather_app/citybloc/city_event.dart';
-import 'package:weather_app/data/services/cityservice.dart';
 import 'package:weather_app/data/services/weather_service.dart';
-import 'package:weather_app/presentation/weatherBloc/weather_bloc_bloc.dart';
+import 'package:weather_app/presentation/bloc/weather_bloc_bloc.dart';
 import 'package:weather_app/presentation/screens/home_screen.dart';
 
 void main() {
@@ -23,9 +20,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<WeatherBlocBloc>(
           create: (context) => WeatherBlocBloc(WeatherService()),
         ),
-        BlocProvider<CityBloc>(
-          create: (context) => CityBloc(CityService())..add(FetchCities()),
-        ),
+        // BlocProvider<CityBloc>(
+        //   create: (context) => CityBloc(CityService())..add(FetchCities()),
+        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -47,7 +44,7 @@ class MyApp extends StatelessWidget {
               // Trigger the event after position is determined
               context
                   .read<WeatherBlocBloc>()
-                  .add(FetchWeather(snap.data as Position, 'London'));
+                  .add(FetchWeather(snap.data as Position, 'Maradu'));
               return HomeScreen(
                 initialPosition: snap.data as Position,
                 cityName: 'Initial City',

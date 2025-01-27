@@ -20,4 +20,7 @@ final class WeatherBlocSuccess extends WeatherBlocState {
   List<Object> get props => [weather];
 }
 
-final class WeatherErrorState extends WeatherBlocState {}
+final class WeatherErrorState extends WeatherBlocState {
+  // final String error;
+  // const WeatherErrorState(this.error);
+}

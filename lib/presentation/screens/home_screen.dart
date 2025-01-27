@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,13 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_app/data/services/cityservice.dart';
-import 'package:weather_app/presentation/weatherBloc/weather_bloc_bloc.dart';
+import 'package:weather_app/presentation/common_widgets/search_field.dart';
+import 'package:weather_app/presentation/bloc/weather_bloc_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   final Position initialPosition;
   final String cityName;
-  final CityService cityService = CityService();
 
   HomeScreen(
       {super.key, required this.initialPosition, required this.cityName});
@@ -31,54 +29,7 @@ class HomeScreen extends StatelessWidget {
             const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
         title: Row(
           children: [
-            Expanded(
-              child: SizedBox(
-                height: 40,
-                child: CupertinoTextField(
-                  controller: _searchController,
-                  placeholder: 'Search',
-                  placeholderStyle: const TextStyle(color: Colors.white),
-                  onChanged: (query) {
-                    // Handle search query changes
-                    BlocProvider.of<WeatherBlocBloc>(context)
-                        .add(FetchWeatherByCityName(query));
-                  },
-                  onSubmitted: (query) {
-                    // Handle search query submitted
-                    BlocProvider.of<WeatherBlocBloc>(context)
-                        .add(FetchWeatherByCityName(query));
-                  },
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  prefix: const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: Icon(
-                      CupertinoIcons.search,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  suffix: GestureDetector(
-                    onTap: () {
-                      // Clear the text field and fetch weather with initial position
-                      _searchController.clear();
-                      BlocProvider.of<WeatherBlocBloc>(context)
-                          .add(FetchWeather(initialPosition, cityName));
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Icon(
-                        CupertinoIcons.xmark_circle_fill,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  style: const TextStyle(color: Colors.white),
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                ),
-              ),
-            ),
+            Expanded(child: SearchField(controller: _searchController)),
           ],
         ),
       ),
@@ -143,40 +94,10 @@ class HomeScreen extends StatelessWidget {
                                             BlocProvider.of<WeatherBlocBloc>(
                                                     context)
                                                 .add(FetchWeather(
-                                                    initialPosition, cityName));
+                                                    initialPosition, 'Maradu'));
                                           },
                                         ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.bookmark,
-                                            color: Colors.white,
-                                            size: 30,
-                                          ),
-                                          onPressed: () async {
-                                            final cityName =
-                                                state.weather.cityName;
-                                            try {
-                                              await cityService
-                                                  .addCity(cityName);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                    content: Text(
-                                                        'City saved successfully')),
-                                              );
-                                            } catch (error) {
-                                              if (kDebugMode) {
-                                                print('Error: $error');
-                                              } // Log the error
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                    content: Text(
-                                                        'Failed to save city: $error')),
-                                              );
-                                            }
-                                          },
-                                        ),
+                                       
                                       ],
                                     )
                                   ],
@@ -369,7 +290,7 @@ class HomeScreen extends StatelessWidget {
                       } else if (state is WeatherErrorState) {
                         return const Center(
                           child: Text(
-                            'Failed to fetch weather data',
+                            'Failed to fetch weather data ',
                             style: TextStyle(color: Colors.white),
                           ),
                         );
