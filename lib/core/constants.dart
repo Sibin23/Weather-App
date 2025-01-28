@@ -19,14 +19,18 @@ BorderRadius radius12 = BorderRadius.circular(12);
 BorderRadius radius20 = BorderRadius.circular(20);
 
 // TextStyle
-TextStyle title = GoogleFonts.roboto(
+final TextStyle title = GoogleFonts.roboto(
     color: whiteColor, fontSize: 25, fontWeight: FontWeight.w400);
-final TextStyle subtitle1 = GoogleFonts.roboto(
-    fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
+final TextStyle title2 = GoogleFonts.gruppo(
+    fontWeight: FontWeight.w800, color: whiteColor, fontSize: 20);
+final TextStyle subtitle1 = GoogleFonts.rethinkSans(
+    fontSize: 25, color: Colors.white, fontWeight: FontWeight.w500);
 final TextStyle subtitle2 = GoogleFonts.roboto(
   fontSize: 18,
   color: Colors.white,
 );
+final TextStyle subtitle3 = GoogleFonts.gruppo(
+    fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800);
 
 const String domain = 'https://api.openweathermap.org/data/2.5/weather?';
 

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/core/constants.dart';
 import 'package:weather_app/presentation/common_widgets/search_field.dart';
 
@@ -81,7 +82,7 @@ class WeatherScreen extends StatelessWidget {
                 ),
                 BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
-                  child: Container(
+                  child: SizedBox(
                     height: size.height,
                     width: size.width,
                   ),
@@ -89,39 +90,65 @@ class WeatherScreen extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+
+          // Ui content
+
+          SizedBox(
             height: size.height,
             width: size.width,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(15.0),
               child: Stack(
                 children: [
                   Positioned(
-                    top: 90,
-                    left: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Jakarta',
-                          style: subtitle2,
-                        ),
-                        Text(
-                          'Good Morning',
-                          style: subtitle1,
-                        ),
-                      ],
+                    top: 100,
+                    left: 0,
+                    right: 0,
+                    child: SizedBox(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: size.width,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Jakarta',
+                                  style: subtitle3,
+                                ),
+                                Text(
+                                  'Good Morning',
+                                  
+                                  style: subtitle1,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 240,
+                          ),
+                          Text(
+                            '21°C',
+                            style: GoogleFonts.publicSans(
+                                color: whiteColor, fontSize: 100),
+                          ),
+                          Text(
+                            'THUNDERSTORM',
+                            style: title2,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
-                    top: 100,
+                    top: 120,
                     left: 0,
                     right: 0,
                     child: Image.asset(
                       'assets/images/clear.png',
                       fit: BoxFit.cover,
-                      height: 400,
-                      width: 400,
+                      height: 300,
+                      width: 200,
                     ),
                   ),
                 ],
