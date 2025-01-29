@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/core/constants.dart';
 import 'package:weather_app/presentation/bloc/weather_bloc_bloc.dart';
@@ -13,9 +14,17 @@ class SearchField extends StatelessWidget {
     return SizedBox(
       height: 60,
       child: CupertinoTextField(
+        
+        prefix: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.search,
+            color: whiteColor.withOpacity(0.8),
+          ),
+        ),
         controller: controller,
         placeholder: 'Search City Name',
-        placeholderStyle: subtitle2,
+        placeholderStyle: subtitle3,
         decoration: BoxDecoration(
           color: whiteColor.withOpacity(0.1),
           borderRadius: radius12,
@@ -38,7 +47,8 @@ class SearchField extends StatelessWidget {
         },
         suffix: GestureDetector(
           onTap: () {
-            controller.clear();
+            BlocProvider.of<WeatherBlocBloc>(context)
+                .add(const FetchWeatherByCityName('Dubai'));
           },
           child: const Padding(
             padding: EdgeInsets.only(right: 8.0),

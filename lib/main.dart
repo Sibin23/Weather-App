@@ -20,9 +20,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<WeatherBlocBloc>(
           create: (context) => WeatherBlocBloc(WeatherService()),
         ),
-        // BlocProvider<CityBloc>(
-        //   create: (context) => CityBloc(CityService())..add(FetchCities()),
-        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -44,7 +41,8 @@ class MyApp extends StatelessWidget {
               // Trigger the event after position is determined
               context
                   .read<WeatherBlocBloc>()
-                  .add(FetchWeather(snap.data as Position, 'Maradu'));
+                  .add(FetchWeather(snap.data as Position, 'Dubai'));
+
               return HomeScreen(
                 initialPosition: snap.data as Position,
                 cityName: 'Initial City',

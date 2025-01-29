@@ -1,162 +1,227 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/core/constants.dart';
-import 'package:weather_app/presentation/common_widgets/search_field.dart';
+import 'package:weather_app/data/model/weather_model.dart';
 
 class WeatherScreen extends StatelessWidget {
-  const WeatherScreen({super.key});
+  final Weather weather;
+  final Size size;
+  const WeatherScreen({super.key, required this.weather, required this.size});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController = TextEditingController();
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: blackColor,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        foregroundColor: whiteColor,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: SearchField(controller: searchController),
-      ),
-      body: Stack(
-        children: [
-          Container(
-            height: size.height,
-            width: size.width,
-            color: blackColor,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: size.height,
-                  width: size.width,
-                  child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200)),
-                ),
-                Positioned(
-                  top: -20,
-                  left: 20,
-                  child: Container(
-                    height: 400,
-                    width: 400,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.orange),
-                    child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100)),
-                  ),
-                ),
-                Positioned(
-                  top: 300,
-                  left: -50,
-                  child: Container(
-                    height: 300,
-                    width: 300,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromARGB(255, 13, 25, 161)),
-                  ),
-                ),
-                Positioned(
-                  top: 500,
-                  right: -40,
-                  child: Container(
-                    height: 200,
-                    width: 300,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromARGB(255, 13, 25, 161)),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                  child: Container(
-                    height: 200,
-                    width: size.width,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.rectangle, color: blackColor),
-                  ),
-                ),
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
-                  child: SizedBox(
-                    height: size.height,
-                    width: size.width,
-                  ),
-                ),
-              ],
+    return SizedBox(
+      height: size.height,
+      width: size.width,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 140,
+              left: 0,
+              right: 0,
+              child: Image.asset(
+                getWeatherImages(weather.mainCondition),
+                fit: BoxFit.cover,
+                height: 300,
+                width: 200,
+              ),
             ),
-          ),
-
-          // Ui content
-
-          SizedBox(
-            height: size.height,
-            width: size.width,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 100,
-                    left: 0,
-                    right: 0,
-                    child: SizedBox(
+            Positioned(
+              top: 100,
+              left: 0,
+              right: 0,
+              child: SizedBox(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: size.width,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: size.width,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Jakarta',
-                                  style: subtitle3,
-                                ),
-                                Text(
-                                  'Good Morning',
-                                  
-                                  style: subtitle1,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 240,
+                          Text(
+                            weather.cityName,
+                            style: subtitle2,
                           ),
                           Text(
-                            '21°C',
-                            style: GoogleFonts.publicSans(
-                                color: whiteColor, fontSize: 100),
-                          ),
-                          Text(
-                            'THUNDERSTORM',
-                            style: title2,
+                            getGreeting(DateTime.parse(weather.datetime)),
+                            style: subtitle1,
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 120,
-                    left: 0,
-                    right: 0,
-                    child: Image.asset(
-                      'assets/images/clear.png',
-                      fit: BoxFit.cover,
-                      height: 300,
-                      width: 200,
+                    const SizedBox(
+                      height: 240,
                     ),
-                  ),
-                ],
+                    Text(
+                      '${weather.temperature.round()}°C',
+                      style: GoogleFonts.publicSans(
+                          color: whiteColor, fontSize: 100),
+                    ),
+                    Text(
+                      weather.mainCondition,
+                      style: title2,
+                    ),
+                    Text(
+                      DateFormat('EEEE dd •')
+                          .add_jm()
+                          .format(DateTime.parse(weather.datetime)),
+                      style: subtitle3,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              '☀️',
+                              style: TextStyle(fontSize: 40),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Sunrise',
+                                  style: subtitle3,
+                                ),
+                                Text(
+                                  DateFormat()
+                                      .add_jm()
+                                      .format(DateTime.parse(weather.sunRise)),
+                                  style: subtitle1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              '🌙',
+                              style: TextStyle(fontSize: 40),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Sunset',
+                                  style: subtitle3,
+                                ),
+                                Text(
+                                  DateFormat()
+                                      .add_jm()
+                                      .format(DateTime.parse(weather.sunSet)),
+                                  style: subtitle1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    h10,
+                    Divider(
+                      thickness: 2,
+                      color: whiteColor.withOpacity(0.2),
+                    ),
+                    h10,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/temp_Max.png',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'High',
+                                  style: subtitle3,
+                                ),
+                                Text(
+                                  '${weather.maxTemp.round()}°C',
+                                  style: subtitle1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/temp_Min.png',
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Low',
+                                  style: subtitle3,
+                                ),
+                                Text(
+                                  '${weather.minTemp.round()}°C',
+                                  style: subtitle1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+String getGreeting(DateTime dateTime) {
+  final hour = dateTime.hour;
+  if (hour >= 0 && hour < 12) {
+   return "Good Morning";
+  } else if (hour >= 12 && hour < 16) {
+    return "Good Afternoon";
+  } else {
+    return "Good Evening";
+  }
+ 
+}
+
+String getWeatherImages(String mainCondition) {
+  switch (mainCondition.toLowerCase()) {
+    case 'clouds':
+      return 'assets/images/Cloudy.png';
+    case 'mist':
+    case 'smoke':
+    case 'haze':
+    case 'dust':
+    case 'fog':
+      return 'assets/images/Mist.png';
+    case 'rain':
+    case 'drizzle':
+    case 'shower rain':
+      return 'assets/images/Rainy.png';
+    case 'thunderstorm':
+      return 'assets/images/Thunderstorm.png';
+    case 'clear':
+      return 'assets/images/Sunny.png';
+    case 'snow':
+      return 'assets/images/Snow.png';
+    default:
+      return 'assets/images/Cloudy.png';
   }
 }
