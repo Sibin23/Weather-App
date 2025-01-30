@@ -36,16 +36,16 @@ final subtitle3 =
     GoogleFonts.roboto(color: whiteColor.withOpacity(0.6), fontSize: 18);
 
 // images
-// const String cloudy = 'assets/images/Cloudy.png';
-// const String sunny = 'assets/images/Sunny.png';
-// const String rainy = 'assets/images/Rainy.png';
-// const String snowy = 'assets/images/Snow.png';
-// const String mist = 'assets/images/Mist.png';
-// const String thunderstorm = 'assets/images/Thundrstorm.png';
-// const String sunrise = 'assets/images/Sunrise.png';
-// const String sunset = 'assets/images/Sunset.png';
-// const String temperatureMax = 'assets/images/temp_Max.png';
-// const String temperatureMin = 'assets/images/temp_min.png';
+const String cloudy = 'assets/images/Cloudy.png';
+const String sunny = 'assets/images/Sunny.png';
+const String rainy = 'assets/images/Rainy.png';
+const String snowy = 'assets/images/Snow.png';
+const String mist = 'assets/images/Mist.png';
+const String thunderstorm = 'assets/images/Thundrstorm.png';
+const String sunrise = 'assets/images/Sunrise.png';
+const String sunset = 'assets/images/Sunset.png';
+const String temperatureMax = 'assets/images/temp_Max.png';
+const String temperatureMin = 'assets/images/temp_Min.png';
 
 const String domain = 'https://api.openweathermap.org/data/2.5/weather?';
 

@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _searchController = TextEditingController();
+    final TextEditingController searchController = TextEditingController();
     final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.black,
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
               const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
           title: Row(
             children: [
-              Expanded(child: SearchField(controller: _searchController)),
+              Expanded(child: SearchField(controller: searchController)),
             ],
           ),
         ),
@@ -47,7 +47,8 @@ class HomeScreen extends StatelessWidget {
               child: SizedBox(
                 child: Stack(
                   children: [
-                    BackgroundUi(mainCondition: state.weather.mainCondition),
+                    BackgroundUi(
+                        mainCondition: state.weather.mainCondition),
                     WeatherScreen(
                       size: size,
                       weather: state.weather,
@@ -75,4 +76,3 @@ class HomeScreen extends StatelessWidget {
         }));
   }
 }
-

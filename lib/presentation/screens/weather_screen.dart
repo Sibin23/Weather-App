@@ -75,9 +75,11 @@ class WeatherScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Text(
-                              '☀️',
-                              style: TextStyle(fontSize: 40),
+                            Image.asset(
+                              sunrise,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,9 +100,11 @@ class WeatherScreen extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            const Text(
-                              '🌙',
-                              style: TextStyle(fontSize: 40),
+                            Image.asset(
+                              sunset,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +137,7 @@ class WeatherScreen extends StatelessWidget {
                         Row(
                           children: [
                             Image.asset(
-                              'assets/images/temp_Max.png',
+                              temperatureMax,
                               width: 50,
                               height: 50,
                               fit: BoxFit.cover,
@@ -156,7 +160,7 @@ class WeatherScreen extends StatelessWidget {
                         Row(
                           children: [
                             Image.asset(
-                              'assets/images/temp_Min.png',
+                              temperatureMin,
                               width: 50,
                               height: 50,
                               fit: BoxFit.cover,
@@ -192,36 +196,35 @@ class WeatherScreen extends StatelessWidget {
 String getGreeting(DateTime dateTime) {
   final hour = dateTime.hour;
   if (hour >= 0 && hour < 12) {
-   return "Good Morning";
+    return "Good Morning";
   } else if (hour >= 12 && hour < 16) {
     return "Good Afternoon";
   } else {
     return "Good Evening";
   }
- 
 }
 
 String getWeatherImages(String mainCondition) {
   switch (mainCondition.toLowerCase()) {
     case 'clouds':
-      return 'assets/images/Cloudy.png';
+      return cloudy;
     case 'mist':
     case 'smoke':
     case 'haze':
     case 'dust':
     case 'fog':
-      return 'assets/images/Mist.png';
+      return mist;
     case 'rain':
     case 'drizzle':
     case 'shower rain':
-      return 'assets/images/Rainy.png';
+      return rainy;
     case 'thunderstorm':
-      return 'assets/images/Thunderstorm.png';
+      return thunderstorm;
     case 'clear':
-      return 'assets/images/Sunny.png';
+      return sunny;
     case 'snow':
-      return 'assets/images/Snow.png';
+      return snowy;
     default:
-      return 'assets/images/Cloudy.png';
+      return cloudy;
   }
 }
